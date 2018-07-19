@@ -73,11 +73,14 @@ set(ACD ON)
 # ACTIVATE LDAHASH
 set(LDAHASH ON)
 
+# ACTIVATE GDAL
+set(GDAL ON)
+
 
 if (opencv)
     message("************* OPENCV Descriptors *************")
-    set (OpenCV_DIR "~/Sources/opencv-3.2.0/build/share/OpenCV")
-    set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "~/Sources/opencv-3.2.0/build/share/OpenCV")
+    set (OpenCV_DIR "/home/rdguez-mariano/Sources/opencv_3.2.0/share/OpenCV")
+    set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "/home/rdguez-mariano/Sources/opencv_3.2.0/share/OpenCV")
     find_package( OpenCV 3.2 REQUIRED )
     include_directories( ${OpenCV_INCLUDE_DIRS} )
 else()
@@ -148,3 +151,11 @@ if (opencv)
 endif()
 
 TARGET_LINK_LIBRARIES(main png zlib Match Numerics)
+
+if (GDAL)
+    find_package( GDAL )
+    include_directories( ${GDAL_INCLUDE_DIRS} )
+    message("************* Including GDAL *************")
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D _GDAL=1")
+    TARGET_LINK_LIBRARIES(main gdal)
+endif()
