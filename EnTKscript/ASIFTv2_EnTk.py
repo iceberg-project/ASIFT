@@ -1,10 +1,10 @@
+# ASIFTv2 code
+# EntK script 7.3 (PHASE 1)
+
 
 from radical.entk import Pipeline, Stage, Task, AppManager
 import os
 import argparse
-
-# ASIFTv2 code
-# EntK script 7.3 (PHASE 1)
 #------------------------------------------------------------------------------
 # Set default verbosity
 
@@ -25,7 +25,7 @@ def generate_pipeline(name, stages):
     # Create a Task object
     t = Task()
     t.name = 'task1'        # Assign a name to the task (optional)
-    t.executable ='/home/aymen/SummerRadical/ASIFT_V2/ASIFT/PHASE_1_KEYPOINT_GENERATION/fast_imas_IPOL/build/main'   # Assign executable to the task
+    t.executable ='/ASIFT_V2/ASIFT/PHASE_1_KEYPOINT_GENERATION/fast_imas_IPOL/build/main'   # Assign executable to the task
     t.arguments = ['-im1','input_0.png','-im2' ,'input_1.png','-desc',11,'-covering' ,1.4]# Assign arguments
     t.upload_input_data= ['input_0.png', 'input_1.png','covering.png']
 
@@ -68,9 +68,7 @@ if __name__=='__main__':
     pipelines = list()
     for cnt in range(args.pipelines):
         p1 = generate_pipeline(name ='Pipeline%s'%cnt,stages = 1)
-        #dev = dev ^ 1
         pipelines.append(p1)
-
     # Assign the workflow as a set of Pipelines to the Application Manager
     appman.workflow=set(pipelines)
 
