@@ -102,6 +102,25 @@ def generate_pipeline(name, stages):
     p.add_stages(s)
 
 
+    # Create a Stage object
+    s3 = Stage()
+    s3.name = 'Stage3'
+    print 'Third SRAGE Begins'
+    # Create a Task object
+    t3 = Task()
+    t3.name = 'task3'        # Assign a name to the task (optional)
+    t3.executable =['/bin/bash']   # Assign executable to the task
+    t3.cpu_reqs['process_type'] = ''
+    t3.cpu_reqs['thread_type'] = ''
+    t3.arguments = ['-l', '-c', 'base64 /dev/urandom | head -c 1000000 > output.txt'] # Assign arguments
+    t3.upload_input_data= []
+
+    # Add the Task to the Stage
+    s3.add_tasks(t3)
+    # Add Stage to the Pipeline
+    p.add_stages(s3)
+
+
     return p 
 
 
