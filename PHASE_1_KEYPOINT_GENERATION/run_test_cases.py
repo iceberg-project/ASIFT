@@ -15,6 +15,11 @@ want are running successfully and we are satisfied the algorithm is working robu
 # in the 'fast_imas_IPOL/README.md file. It should be build with OpenCV ENABLED.
 #
 # The OpenCV library, v3.2 or higher, will need to be built and installed accordingly.
+#
+# To use and subset TIF images rather than PNG, the GDAL library and python bindings
+#     must also be installed.
+#
+# Read "fast_imas_IPOL/README.md" for details of build instructions.
 ################################################################################
 
 # subprocess is used to execute the ASIFT executable and
