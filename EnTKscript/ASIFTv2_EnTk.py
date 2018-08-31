@@ -11,66 +11,44 @@ if os.environ.get('RADICAL_ENTK_VERBOSE') == None:
 os.environ['RADICAL_ENTK_PROFILE'] = 'True'
 
 if not os.environ.get('RADICAL_PILOT_DBURL'):
-    os.environ['RADICAL_PILOT_DBURL'] = "mongodb://********************************/radicallab"
+    os.environ['RADICAL_PILOT_DBURL'] = "mongodb://MONGO_DB_URL/radicallab"
 
 def generate_pipeline(name, stages):
   
-    #condition function
+    #Condition function "Simply check if data_matches.csv file is exist and not empty"
     def func_condition():
-       
-        print 'Condition Function Started'    
-        my_path = "/home/usr/ASIFT/PHASE_1_KEYPOINT_GENERATION/fast_imas_IPOL/build/data_matches.csv"
 
-        #if os.path.exists(my_path) and os.path.getsize(my_path) > 0:
+        my_path = "/home/usr/ASIFT/PHASE_1_KEYPOINT_GENERATION/fast_imas_IPOL/build/data_matches.csv"
         if os.path.exists(my_path) and os.path.getsize(my_path) > 0:
             return True
-            
-
+           
         return False
 
     #True Condition function
     def func_on_true():
-        print 'True Function'
 
-        s2 = Stage()
+        s2 = Stage() # Create a Stage object
         t = Task()    
         t.executable = ['/bin/echo']   
         t.cpu_reqs['process_type'] = ''
         t.cpu_reqs['thread_type'] = ''
         t.arguments = ["This is Adaptive Stage on True"] 
         t.cores = 20
-
-        # Add the Task to the Stage
-        s2.add_tasks(t)
-
-        # Add post-exec to the Stage
-
-        p.add_stages(s2)
+        s2.add_tasks(t)  # Add the Task to the Stage
+        p.add_stages(s2) 
 
     #False Condition function
     def func_on_false():
-        print 'False Function'
-
-        s1=Stage()
-
-
-        # Create a Stage object 
-            
+   
+        s1=Stage() # Create a Stage object
         t1 = Task()    
         t1.executable = ['/bin/echo']   
         t1.cpu_reqs['process_type'] = ''
         t1.cpu_reqs['thread_type'] = ''
         t1.arguments = ["This is Adaptive Stage on False"] 
         t1.cores = 20
-
-        # Add the Task to the Stage
-        s1.add_tasks(t1)
-
-        # Add post-exec to the stage
-        # Add Stage to the Pipeline
-        p.add_stages(s1)        
-
-
+        s1.add_tasks(t1) # Add the Task to the Stage
+        p.add_stages(s1)     
 
     # Create a Pipeline object
     p = Pipeline()
@@ -89,26 +67,25 @@ def generate_pipeline(name, stages):
     t.arguments = ['-im1','input_0.png','-im2' ,'input_1.png','-desc',11,'-covering' ,1.4]# Assign arguments
     t.upload_input_data= ['input_0.png', 'input_1.png','covering.png']
     t.download_output_data = ['data_matches.csv']
+
+    # Add post-exec to the Stage
     s.post_exec = {
                              'condition': func_condition,
-                             'on_true': func_on_true,
-                             'on_false': func_on_false
+                             'on_true'  : func_on_true,
+                             'on_false' : func_on_false
                     }
 
     # Add the Task to the Stage
     s.add_tasks(t)
-
     # Add Stage to the Pipeline
     p.add_stages(s)
-
-
     # Create a Stage object
     s3 = Stage()
     s3.name = 'Stage3'
-    print 'Third SRAGE Begins'
+  
     # Create a Task object
     t3 = Task()
-    t3.name = 'task3'        # Assign a name to the task (optional)
+    t3.name = 'task3'              # Assign a name to the task (optional)
     t3.executable =['/bin/bash']   # Assign executable to the task
     t3.cpu_reqs['process_type'] = ''
     t3.cpu_reqs['thread_type'] = ''
@@ -120,7 +97,6 @@ def generate_pipeline(name, stages):
     # Add Stage to the Pipeline
     p.add_stages(s3)
 
-
     return p 
 
 
@@ -128,16 +104,11 @@ if __name__=='__main__':
 
     parser = argparse.ArgumentParser(description='Scaling inputs')
     parser.add_argument('cores', type=int, help='Number of Cores')
-    #parser.add_argument('queue',type=str, help='Queue to submit to')
     parser.add_argument('pipelines',type=int ,help='Number of pipelines')
     print parser.parse_args()
     args = parser.parse_args()
 
-
-
     res_dict = {
-
-              
                   'resource': 'xsede.comet_anaconda',
                   'walltime': 10,
                   'cpus'   : args.cores,
@@ -156,7 +127,6 @@ if __name__=='__main__':
     pipelines = list()
     for cnt in range(args.pipelines):
         p1 = generate_pipeline(name ='Pipeline%s'%cnt,stages = 1)
-        #dev = dev ^ 1
         pipelines.append(p1)
         
     # Assign the workflow as a set of Pipelines to the Application Manager
@@ -164,5 +134,3 @@ if __name__=='__main__':
 
     # Run the Application Manager
     appman.run()
-
-
