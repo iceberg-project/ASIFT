@@ -1,0 +1,49 @@
+--> Using 12 threads out of 12 for executing Optimal-Affine-RootSIFT (opencv) <--
+
+Covering Info:
+Selecting optimal log1.7-covering for tilts up to 6  
+( t_1 phi_1 ... t_n phi_n ) = ( 2.6175699234 0.3980320096 5.1816802025 0.1983139962 )
+ Area ratio = 7.144  
+ 
+IMAS-Detector with RootSIFT (opencv)...
+   7067 hyper-descriptors from 33400 SIIM descriptors have been found in 25 simulated versions of image 1
+      stats: group_min = 1 , group_mean = 4.726, group_max = 38
+   4945 hyper-descriptors from 18189 SIIM descriptors have been found in 25 simulated versions of image 2
+      stats: group_min = 1 , group_mean = 3.678, group_max = 33
+IMAS-Detector accomplished in 24.15 seconds.
+ 
+IMAS-Matcher...
+   1165 possible matches have been found. 
+IMAS-Matcher accomplished in 8.15 seconds.
+ 
+Filters... 
+   Number of filtered matches =  1165. 
+Filters were applied in 0.00 seconds.
+
+   Final number of matches =  1165. 
+
+Done.
+
+	Command being timed: "/home/mmacferrin/Dropbox/Research/IceBerg-Personal/ASIFT/PHASE_1_KEYPOINT_GENERATION/fast_imas_IPOL/build/main -im1_gdal /home/mmacferrin/Dropbox/Research/IceBerg-Personal/ASIFT/PHASE_1_KEYPOINT_GENERATION/TEST_CASES/TEST_CASE_IMAGES/WV01_20101207_102001000F043B00_102001001153AD00_seg1_2m_ortho.tif 6100 5100 2000 2000 -im2_gdal /home/mmacferrin/Dropbox/Research/IceBerg-Personal/ASIFT/PHASE_1_KEYPOINT_GENERATION/TEST_CASES/TEST_CASE_IMAGES/WV01_20161218_102001005C18BF00_1020010058E7BE00_seg1_2m_ortho.tif 13100 28200 2000 2000"
+	User time (seconds): 308.81
+	System time (seconds): 17.72
+	Percent of CPU this job got: 483%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:07.50
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 5767304
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 4864151
+	Voluntary context switches: 12690
+	Involuntary context switches: 6261
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 58616
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
