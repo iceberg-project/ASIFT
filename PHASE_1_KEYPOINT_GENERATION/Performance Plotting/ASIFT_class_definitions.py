@@ -69,7 +69,8 @@ class ASIFT_Test_Case:
                        filter_precision=None,
                        filter_radius=None,
                        fixed_area=None,
-                       eigen_threshold=None):
+                       eigen_threshold=None,
+                       tensor_eigen_threshold=None):
         '''Defining the test case with each set of mandatory and optional parameters.
         All parameters descriptions can be found in './fast_imas_IPOL/README.md
 
@@ -124,6 +125,7 @@ class ASIFT_Test_Case:
         self.filter_radius = filter_radius
         self.fixed_area = fixed_area
         self.eigen_threshold = eigen_threshold
+        self.tensor_eigen_threshold = tensor_eigen_threshold
 
 
     def test_source_files_exist(self, output_warning=False):
@@ -212,9 +214,22 @@ class ASIFT_Test_Case:
             path_options.extend(["-applyfilter", str(self.applyfilter)])
         if self.desc != None:
             path_options.extend(["-desc", str(self.desc)])
-        # TODO: Add other command-line options here as needed....
+        if self.covering != None:
+            path_options.extend(["-covering", str(self.covering)])
+        if self.match_ratio != None:
+            path_options.extend(["-match_ratio", str(self.match_ratio)])
+        if self.filter_precision != None:
+            path_options.extend(["-filter_precision", str(self.filter_precision)])
+        if self.filter_radius != None:
+            path_options.extend(["-filter_radius", str(self.filter_radius)])
+        if self.eigen_threshold != None:
+            path_options.extend(["-eigen_threshold", str(self.eigen_threshold)])
+        if self.tensor_eigen_threshold != None:
+            path_options.extend(["-tensor_eigen_threshold", str(self.tensor_eigen_threshold)])
+        # Add other command-line options here if/as needed, see "fast_imas_IPOL/README.md" for details.
 
-        # TODO: For performance_monitoring, add "/usr/bin/time" and "-v" to the command line options, at the start.
+        # For performance_monitoring, add "/usr/bin/time" and "-v" to the command line options, at the start.
+        # Then capture the output below.
         if performance_monitoring:
             path_options = ["/usr/bin/time","-v"] + path_options
 
@@ -237,7 +252,7 @@ class ASIFT_Test_Case:
             result = subprocess.check_output(path_options, cwd=self.output_dir, stderr=subprocess.STDOUT)
 
             if verbose:
-                print "RESULT!!!!!!"
+                print "\n============== RESULT =============="
                 print result
         except subprocess.CalledProcessError:
             print "EXECUTION ERROR: No results"
@@ -291,35 +306,3 @@ class ASIFT_Test_Case:
 if __name__ == "__main__":
 
     pass
-
-#
-#    # Test case 1
-#    case1 = ASIFT_Test_Case(im1="adam1.png",
-#                            im2="adam2.png",
-#                            output_dir='./TEST_CASES/CASE01_adam1_adam2')
-#    case1.execute(output_textfile="OUTPUT.txt")
-#
-#    # Test case 2
-#    case2 = ASIFT_Test_Case(im1="adam2.png",
-#                            im2="adam1.png",
-#                            output_dir="./TEST_CASES/CASE02_adam2_adam1")
-#    case2.execute(output_textfile="OUTPUT.txt")
-
-
-#    APPLYFILTER_OPTIONS = [1,2,3,4]
-#    # FOr now, leaving out options 10 (LUCID), 13, 30,31,32
-#    DESC_OPTIONS = [1,2,11,21,22,3,4,5,6,7,8,9]
-#
-#    # The rest of the test cases, run through ALL the basic command-line options, see if they work.
-#    test_id = 3
-#    for applyfilter in APPLYFILTER_OPTIONS:
-#        for desc in DESC_OPTIONS:
-#            test_case = ASIFT_Test_Case(im1="adam1.png",
-#                                        im2="adam2.png",
-#                                        output_dir="./TEST_CASES/CASE{0:02d}_adam1_adam2_{1:1d}_{2:02d}".format(test_id, applyfilter, desc),
-#                                        OPT_applyfilter=applyfilter,
-#                                        OPT_desc=desc)
-#            test_case.execute(output_textfile="OUTPUT.txt")
-#
-#            # Iterate to the next test
-#            test_id += 1

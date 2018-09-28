@@ -5,6 +5,7 @@ Created on Fri Aug 31 16:51:46 2018
 @author: mmacferrin
 
 A quick routine for using the ASIFT_Test_Case class to perform testing on progressively larger images and plotting the output.
+Spits the output to a "perf_monitoring.csv" file, to be read & plotted by "ASIFT_performance_plotting.py"
 """
 
 from ASIFT_class_definitions import ASIFT_Test_Case
@@ -42,11 +43,11 @@ csv_header = "experiment_type,im1_gdal,im2_gdal,size1_px,size2_px,max_mem_kb,run
 with open(output_csv_filename,'w') as csv_file:
     csv_file.write(csv_header)
 
+# 1. Run first with both images scaling up at the same time.
 for size in im_case_sizes:
     # Run each case 10 times to get a distribution.
     for i in range(10):
 
-        # Run first with both images scaling up at the same time.
         test_case = ASIFT_Test_Case(im1_gdal=im1_gdal,
                                     im1_xoff=im1_center_pixel[0] - (size/2),
                                     im1_yoff=im1_center_pixel[1] - (size/2),
@@ -84,9 +85,9 @@ for size in im_case_sizes:
         with open(output_csv_filename,'a') as csv_file:
             csv_file.write(stats_line)
 
+# 2. Run second with one im1 scaling up, im2 set to 3000x3000
 for size in im_case_sizes:
     for i in range(10):
-        # Run second with one im1 scaling up, im2 set to 3000x3000
         test_case = ASIFT_Test_Case(im1_gdal=im1_gdal,
                                     im1_xoff=im1_center_pixel[0] - (size/2),
                                     im1_yoff=im1_center_pixel[1] - (size/2),
@@ -124,9 +125,9 @@ for size in im_case_sizes:
         with open(output_csv_filename,'a') as csv_file:
             csv_file.write(stats_line)
 
+# 3. Run third with one im2 scaling up, im1 set to 3000x3000
 for size in im_case_sizes:
     for i in range(10):
-        # Run third with one im2 scaling up, im1 set to 3000x3000
         test_case = ASIFT_Test_Case(im1_gdal=im1_gdal,
                                     im1_xoff=im1_center_pixel[0] - (3000/2),
                                     im1_yoff=im1_center_pixel[1] - (3000/2),
