@@ -10,16 +10,10 @@ import matplotlib.pyplot as plt
 import numpy
 import scipy.optimize as opt
 
-#results_filename = r"./TEST_CASES/perf_monitoring_DONEv1.csv"
-results_filename_2 = r"./TEST_CASES/perf_monitoring_SNAPSHOTv2.csv"
+results_filename = r"./TEST_CASES/perf_monitoring.csv"
 
-#for i,fname in enumerate([results_filename,results_filename_2]):
-#    results_file = open(fname, 'r')
-results_file = open(results_filename_2, 'r')
-#if i==0:
+results_file = open(results_filename, 'r')
 results_lines = [line.strip() for line in results_file.readlines() if len(line.strip()) > 0]
-#else:
-#    results_lines = results_lines + [line.strip() for line in results_file.readlines() if len(line.strip()) > 0][1:]
 results_file.close()
 
 output_dir = r"./TEST_CASES/performance_outputs/"
@@ -114,6 +108,6 @@ plot_curvefit(ex1_size,ex1_time,ax2,func_square,color='darkred',min_x=0)
 ax2.text(0.1,0.9,"Time ~$O(n^2)$",horizontalalignment="left",verticalalignment="top",transform=ax2.transAxes)
 
 figname = os.path.join(output_dir, "performance_plots_v2.png")
-im.savefig(figname)
 
 plt.tight_layout()
+im.savefig(figname)
