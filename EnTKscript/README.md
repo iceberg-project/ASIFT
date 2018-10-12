@@ -100,20 +100,16 @@ AymenFJA@DESKTOP-R64I4QR:~$
 To verify that your certificate is valid, as well as, its remaining time do:
 ```
 AymenFJA@DESKTOP-R64I4QR:~$ grid-proxy-info
-subject  : /C=US/O=National Center for Supercomputing Applications/CN=Ioannis Paraskevakos
+subject  : /C=US/O=National Center for Supercomputing Applications/CN=AymenFJA
 issuer   : /C=US/O=National Center for Supercomputing Applications/OU=Certificate Authorities/CN=MyProxy CA 2013
-identity : /C=US/O=National Center for Supercomputing Applications/CN=Ioannis Paraskevakos
+identity : /C=US/O=National Center for Supercomputing Applications/CN=AymenFJA
 type     : end entity credential
 strength : 2048 bits
 path     : /tmp/x509up_u1000
 timeleft : 263:59:22  (11.0 days)
 ```
 
-And now do
+And now run
 ```
-python entk_script.py cpus gpus queue images
-```
-For additional information about the scripts arguments execute:
-```
-python entk_script.py -h
+python entk_script.py pipelines cpus 
 ```
