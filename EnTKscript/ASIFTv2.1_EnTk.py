@@ -18,12 +18,9 @@ def generate_pipeline(name, stages):
     def func_condition():
 
         print 'Condition Function Started'
-        my_path = "~/data_matches.csv"
-
-        
+        my_path = "~/data_matches.csv"        
         if os.path.exists(my_path) and os.path.getsize(my_path) > 0:
             return True
-
 
         return False
 
