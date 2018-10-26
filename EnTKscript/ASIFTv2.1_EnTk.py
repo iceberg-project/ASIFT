@@ -106,7 +106,7 @@ def generate_pipeline(name, stages):
     # Create a Task object
     t3 = Task()
     t3.pre_exec = ['module load python2']
-    t3.name = 'task3'        # Assign a name to the task (optional)
+    t3.name = 'task3'              # Assign a name to the task (optional)
     t3.executable =['/bin/bash']   # Assign executable to the task
     t3.arguments = ['-l', '-c', 'base64 /dev/urandom | head -c 1000000 > output.txt'] # Assign arguments
     t3.upload_input_data= []
@@ -135,20 +135,17 @@ if __name__=='__main__':
                   'cpus'   : args.cores,
                   'project' : '',
                   'queue'   : '',
-                  'queue'   :'',
                   'schema'  :'gsissh',
-
                }
 
     # Create Application Manager
-    appman = AppManager(port= ****,hostname='****')
+    appman = AppManager(port= 1234,hostname='local.host')
 
     # Assign resource manager to the Application Manager
     appman.resource_desc = res_dict
     pipelines = list()
     for cnt in range(args.pipelines):
         p1 = generate_pipeline(name ='Pipeline%s'%cnt,stages = 3)
-        #dev = dev ^ 1
         pipelines.append(p1)
 
     # Assign the workflow as a set of Pipelines to the Application Manager
@@ -156,3 +153,4 @@ if __name__=='__main__':
 
     # Run the Application Manager
     appman.run()
+
