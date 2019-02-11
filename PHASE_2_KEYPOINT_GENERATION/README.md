@@ -264,6 +264,7 @@ dirpath = m.add_directory(img_filename, verbose=True)
 dirpath = m.lookup(img_filename)
 m.remove_directory(img_filename, verbose=False)
 m.remove_all_directories(verbose=True)
+
 ```
 
 Usage standalone:
@@ -318,6 +319,7 @@ verbose=True):
 Usage standalone:
 
 ```
+
 usage: python Run_Case_Planner.py [-h] [-filter FILTER]
 [-source_pyramid_levels SOURCE_PYRAMID_LEVELS]
 [-target_pyramid_levels TARGET_PYRAMID_LEVELS]
