@@ -287,7 +287,7 @@ filename, typically after processing is done.
 the screen.
 \--remove_all Clean up the scratch directory and remove all files &
 subfolders.
-\--verbose Increase the output verbosity\`\`\`
+\--verbose Increase the output verbosity
 
 ```
 
