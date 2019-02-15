@@ -135,7 +135,29 @@ to multiple scripts in different phases:
 Installation:
 -------------
 
-(Notes to install & run 4D use case.)
+Before first execution on a system, the following items should be handled:
+
+-   Download and build the “fast_imas_IPOL” executable from the IceBerg branch
+    [TODO: insert link to ICEBERG/fast_imas_IPOL branch from mariano’s code]
+
+-   Create a working Scratch directory for temporary files. Make a copy of the
+    “scratch_directory_log.csv” file and place it in that scratch folder. The
+    “PHASE_1…/scratch_directory_manager.py” script uses that folder and logfile
+    to read, write, and locate temporary files created during execution of the
+    workflow.
+
+-   Update the “/file_locations.py” file and set the following variables, which
+    are imported by other scripts to use these locations:
+
+    -   ASIFT_Executable_Path: location of the external executable that runs
+        ASIFT keypoint matching (in this case, to the location of the
+        fast_imas_IPOL built executable above)
+
+    -   ASIFT_Scratch_Dir: location of the scratch directory
+
+    -   ASIFT_Scratch_Logfile: location of the scratch logfile. If it’s located
+        in the Scratch directory noted above and still called
+        “scratch_directory_log.csv
 
 Running:
 --------
