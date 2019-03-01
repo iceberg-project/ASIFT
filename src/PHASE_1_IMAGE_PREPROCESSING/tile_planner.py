@@ -18,10 +18,10 @@ import argparse
 import os
 import numpy
 from osgeo import gdal, gdalconst
-from Scratch_Directory_Manager import SCRATCH_Manager
-from CSV_writer import write_csv
-import Image_Pyramid as PYRAMID
-from Tile_Generator import create_constrast_enhanced_tile
+from scratch_directory_manager import SCRATCH_Manager
+from csv_writer import write_csv
+import image_pyramid as PYRAMID
+from tile_generator import create_constrast_enhanced_tile
 
 def create_tiles_from_image(img_filename,
                             csv_file=None,

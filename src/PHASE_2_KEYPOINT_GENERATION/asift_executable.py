@@ -28,19 +28,10 @@ import re # Regular expressions used for text parsing
 import argparse
 from osgeo import gdal, gdalconst
 
-################################################################################
-# Global Module variables:
-#   These should be set to match whatever machine upon which this is being run,
-#   before the code is executed.
-################################################################################
-
-base_dir = r"/home/mmacferrin/Dropbox/Research/IceBerg-Personal/ASIFT/PHASE_2_KEYPOINT_GENERATION"
+import file_locations
 
 # The location of the ASIFT executable after compiling.
-ASIFT_EXEC = os.path.join(base_dir, "fast_imas_IPOL/build/main")
-
-# The directory where the test case images sit... THIS WILL CHANGE WHEN WE PUT IMAGES ON BRIDGES
-#TEST_IMAGES_DIR = os.path.join(base_dir, r"TEST_CASES/TEST_CASE_IMAGES")
+ASIFT_EXEC = file_locations.ASIFT_Executable_Path
 
 # The ASIFT_Executable class handles the execution and output of an ASIFT test case.
 class ASIFT_Executable:
@@ -421,34 +412,3 @@ if __name__ == "__main__":
                       performance_monitoring = False,
                       verbose = args.verbose)
 
-#
-#    # Test case 1
-#    case1 = ASIFT_Test_Case(im1="adam1.png",
-#                            im2="adam2.png",
-#                            output_dir='./TEST_CASES/CASE01_adam1_adam2')
-#    case1.execute(output_textfile="OUTPUT.txt")
-#
-#    # Test case 2
-#    case2 = ASIFT_Test_Case(im1="adam2.png",
-#                            im2="adam1.png",
-#                            output_dir="./TEST_CASES/CASE02_adam2_adam1")
-#    case2.execute(output_textfile="OUTPUT.txt")
-
-
-#    APPLYFILTER_OPTIONS = [1,2,3,4]
-#    # FOr now, leaving out options 10 (LUCID), 13, 30,31,32
-#    DESC_OPTIONS = [1,2,11,21,22,3,4,5,6,7,8,9]
-#
-#    # The rest of the test cases, run through ALL the basic command-line options, see if they work.
-#    test_id = 3
-#    for applyfilter in APPLYFILTER_OPTIONS:
-#        for desc in DESC_OPTIONS:
-#            test_case = ASIFT_Test_Case(im1="adam1.png",
-#                                        im2="adam2.png",
-#                                        output_dir="./TEST_CASES/CASE{0:02d}_adam1_adam2_{1:1d}_{2:02d}".format(test_id, applyfilter, desc),
-#                                        OPT_applyfilter=applyfilter,
-#                                        OPT_desc=desc)
-#            test_case.execute(output_textfile="OUTPUT.txt")
-#
-#            # Iterate to the next test
-#            test_id += 1

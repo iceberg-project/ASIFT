@@ -13,7 +13,7 @@ import cv2
 import gdal
 import numpy
 #import os
-from Matches_Reader import ASIFT_Matches
+from matches_reader import ASIFT_Matches
 
 ## Some local variables to test this function, not needed otherwise.
 #working_dir = r"C:\Users\mmacferrin\Dropbox\Research\IceBerg-Personal\ASIFT\PHASE_1_KEYPOINT_GENERATION\TEST_CASES\TEST_CASE_IMAGES"

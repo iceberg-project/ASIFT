@@ -14,13 +14,13 @@ currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0,parentdir)
 ## Also add the utility folder for the csv names
-utilitydir = os.path.join(parentdir, "UTILITIES")
+utilitydir = os.path.join(parentdir, "utilities")
 sys.path.insert(0,utilitydir)
 #######################################################################################
 
-from File_Locations import ASIFT_Scratch_Dir, ASIFT_Scratch_Logfile
-from CSV_auto_reader import read_simple_csv
-from CSV_writer import write_csv
+from file_locations import ASIFT_Scratch_Dir, ASIFT_Scratch_Logfile
+from csv_auto_reader import read_simple_csv
+from csv_writer import write_csv
 
 import hashlib
 import os

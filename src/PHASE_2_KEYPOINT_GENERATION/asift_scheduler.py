@@ -10,7 +10,7 @@ ASIFT_Scheduler.py -- Responsible for running all the image tiles against each o
 
 import argparse
 import os
-from ASIFT_Executable import ASIFT_Executable
+from asift_executable import ASIFT_Executable
 
 # TODO: Write in a scheduler here: on a desktop workstation all the cases might be run in serial with a "for" loop.
 # In an HPC environment, these cases would be farmed out to individual nodes, and their results gathered after execution is finished.

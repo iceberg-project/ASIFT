@@ -12,13 +12,13 @@ Code using OpenCV, from "Learn OpenCV" tutorial: https://www.learnopencv.com/ima
 import os,sys,inspect
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
-utilities_dir = os.path.join(parentdir, "UTILITIES")
+utilities_dir = os.path.join(parentdir, "utilities")
 sys.path.insert(0,utilities_dir)
 #######################################################################################=
 
 
-from Matches_Reader import ASIFT_Matches
-from CSV_writer import write_csv
+from matches_reader import ASIFT_Matches
+from csv_writer import write_csv
 
 # External open CV v3 or higher
 import argparse
@@ -69,7 +69,7 @@ def filter_ASIFT_matches(matching_keypoints_filename,
                          output_CSV=None,
                          output_good_points_only=True,
                          verbose=True,
-                         ransac_reprojection_threshold=3,
+                         ransac_threshold=3,
                          eliminate_nodata_matches=True,
                          img1_filename=None,
                          img1_nodata=None,
@@ -118,7 +118,7 @@ def filter_ASIFT_matches(matching_keypoints_filename,
     # 2. Use the cv2.findHomography call, and tweak the parameters to get a good filter.
     # See reference info: https://docs.opencv.org/3.0-beta/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html?highlight=findhomography#findhomography
 
-    H, mask = cv2.findHomography(keys1_ndarray, keys2_ndarray, method=cv2.RANSAC, ransacReprojThreshold=ransac_reprojection_threshold, maxIters=2000)
+    H, mask = cv2.findHomography(keys1_ndarray, keys2_ndarray, method=cv2.RANSAC, ransacReprojThreshold=ransac_threshold, maxIters=2000)
     if len(mask.shape) > 1:
         mask.shape = (mask.shape[0],)
 

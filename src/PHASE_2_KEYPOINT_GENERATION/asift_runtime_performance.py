@@ -7,7 +7,7 @@ Created on Fri Aug 31 16:51:46 2018
 A quick routine for using the ASIFT_Test_Case class to perform testing on progressively larger images and plotting the output.
 """
 
-from ASIFT_class_definitions import ASIFT_Executable
+from asift_executable import ASIFT_Executable
 
 ##################################################################################
 #

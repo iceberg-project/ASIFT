@@ -18,7 +18,7 @@ currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 parentdir = os.path.dirname(currentdir)
 #sys.path.insert(0,parentdir)
 ## Also add the utility folder for the csv names
-utilitydir = os.path.join(parentdir, "UTILITIES")
+utilitydir = os.path.join(parentdir, "utilities")
 sys.path.insert(0,utilitydir)
 #######################################################################################
 import CSV_auto_reader

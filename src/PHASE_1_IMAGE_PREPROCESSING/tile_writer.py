@@ -21,7 +21,7 @@ import os
 from osgeo import gdal, gdalconst
 import numpy
 
-import Contrast_Enhancer
+#import contrast_enhancer
 
 def write_tile(src_filename,
                dst_filename,
