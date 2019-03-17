@@ -24,7 +24,7 @@ from csv_writer import write_csv
 import argparse
 import cv2
 import numpy
-from osgeo import gdal, gdalconst
+#from osgeo import gdal, gdalconst
 
 def find_nodata_matches(keypoints_array, img_filename, img_nodata=None):
     '''Take the keypoints given for this image, find the nodata value, and search the image to find all points that are adjacent to nodata values.
@@ -118,7 +118,8 @@ def filter_ASIFT_matches(matching_keypoints_filename,
     # 2. Use the cv2.findHomography call, and tweak the parameters to get a good filter.
     # See reference info: https://docs.opencv.org/3.0-beta/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html?highlight=findhomography#findhomography
 
-    H, mask = cv2.findHomography(keys1_ndarray, keys2_ndarray, method=cv2.RANSAC, ransacReprojThreshold=ransac_threshold, maxIters=2000)
+    #H, mask = cv2.findHomography(keys1_ndarray, keys2_ndarray, method=cv2.RANSAC, ransacReprojThreshold=ransac_threshold, maxIters=2000)
+    H, mask = cv2.findHomography(keys1_ndarray,keys2_ndarray , cv2.RANSAC,ransac_threshold,2000)
     if len(mask.shape) > 1:
         mask.shape = (mask.shape[0],)
 
