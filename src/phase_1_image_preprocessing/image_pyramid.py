@@ -7,7 +7,7 @@ Image_Pyramid.py img dest_base levels --verbose --overwrite
 @author: mmacferrin
 """
 
-from osgeo import gdal, gdalconst
+#from osgeo import gdal, gdalconst
 import argparse
 import os
 
