@@ -18,7 +18,9 @@ utilitydir = os.path.join(parentdir, "utilities")
 sys.path.insert(0,utilitydir)
 #######################################################################################
 
-from file_locations import ASIFT_Scratch_Dir, ASIFT_Scratch_Logfile
+from file_locations import ASIFT_Scratch_Dir, \
+                           ASIFT_Scratch_Logfile, \
+                           ASIFT_Scratch_Logfile_blank_copy
 from csv_auto_reader import read_simple_csv
 from csv_writer import write_csv
 
@@ -56,11 +58,21 @@ class SCRATCH_Manager:
         hash_name = (fname_base[0:4] if len(fname_base) >= 4 else fname_base) + '_' + hashstr
         return hash_name
 
-    def read_logfile(self):
+    def read_logfile(self, create_if_not_present=True, verbose=True):
         '''Read the logfile and return a numpy data array from 'read_simple_csv'''
         # We artificially make the string length longer in the numpy data type,
         # so we don't accidentally concatenate long filenames added to the database.
         # Max filename size here, 2048 characters.
+
+        if not os.path.exists(self.logfile, verbose=True):
+            if create_if_not_present:
+                self.setup_scratch_directory(verbose=verbose)
+            else:
+                # If we haven't set up the Scratch directory and the calling
+                # function doesn't want us to do that, just return None. Not much
+                # else to do if the file doesn't exist.
+                return None
+
         self.logfile_data = read_simple_csv(self.logfile, string_length_size=2048)
         self.logfile_numpy_dt = self.logfile_data.dtype
         return self.logfile_data
@@ -69,6 +81,11 @@ class SCRATCH_Manager:
         '''Simply look up a file name in the logfile and return its full scratch directory path. If it doesn't yet exist, return None.'''
         if self.logfile_data is None:
             self.read_logfile()
+
+        # If read_logfile() didn't populate this, then the directory wasn't set
+        # up correctly.
+        if self.logfile_data is None:
+            raise Warning("Scratch Logfile at '{0}' doesn't exist or is not readable.".format(ASIFT_Scratch_Logfile))
 
         # Get just the file name, not the whole path.
         fname = os.path.split(fname)[-1]
@@ -185,10 +202,26 @@ class SCRATCH_Manager:
 
         write_csv(self.logfile_data, self.logfile, verbose=verbose)
 
+    def setup_scratch_directory(self, verbose=True):
+        '''If the base Scratch directory doesn't exist, set up the Scratch
+        Directory in the location outlined by in file_locations.py, and place a
+        copy of scratch_directory_log.csv" in there. This will enable you to run
+        the code without needing to set up the Scratch directory manually first.'''
+        if not os.path.exists(ASIFT_Scratch_Dir):
+            if verbose:
+                print "Creating Scratch Directory", ASIFT_Scratch_Dir
+            os.makedirs(ASIFT_Scratch_Dir)
 
+        if not os.path.exists(ASIFT_Scratch_Logfile):
+            if verbose:
+                print "Creating Scratch logfile", ASIFT_Scratch_Logfile
+            # Copy the blank logfile into the Scratch directory.
+            shutil.copyfile(ASIFT_Scratch_Logfile_blank_copy, ASIFT_Scratch_Logfile)
 
 def define_and_parse_arguments():
-    parser = argparse.ArgumentParser(description = "Add, remove, or look up the temporary working directory, which stores intermediate results for a given image file.")
+    parser = argparse.ArgumentParser(description = "Add, remove, or look up " + \
+                    "the temporary working directory, which stores intermediate "  + \
+                    "results for a given image file.")
     parser.add_argument('-add',  type=str, default='', required=False, help="A filename. Adds a directory to store tiles and/or temporary results for the given file.")
     parser.add_argument('-remove', type=str, default='', required=False, help="An image filename. Remove a directory for the given filename, typically after processing is done.")
     parser.add_argument('-lookup', type=str, default='', required=False, help="Look up the directory for the given filename and print it to the screen.")
