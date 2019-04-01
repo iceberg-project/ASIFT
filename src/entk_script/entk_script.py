@@ -70,7 +70,7 @@ def generate_discover_pipeline(path, src_img):
 
     task.executable = 'python2'
     # Assign arguments for the task executable
-    task.arguments = ['../img_parser_CV2.py', '%s' % path, '%s' %src_img]
+    task.arguments = ['../img_parser.py', '%s' % path, '%s' %src_img]
     task.download_output_data = ['images.json']
     stage.add_tasks(task)
     # Add Stage to the Pipeline
