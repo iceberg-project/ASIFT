@@ -61,7 +61,7 @@ def generate_discover_pipeline(path, src_img):
     task = Task()
     task.name = 'Parser-T0'
     task.pre_exec = ['module load psc_path/1.1',
-		             'module load slurm/default',
+		     'module load slurm/default',
                      'module load intel/18.4',
                      'module load xdusage/2.1-1',
                      'module load python2/2.7.11_gcc_np1.11',
@@ -100,7 +100,7 @@ def generate_pipeline(img1, img2, x1, y1, x2, y2, name):
     t1 = Task()
     t1.name = 'Task1'
     t1.pre_exec = ['module load psc_path/1.1',
-		           'module load slurm/default',
+		   'module load slurm/default',
                    'module load intel/18.4',
                    'module load xdusage/2.1-1',
                    'module load python2/2.7.11_gcc_np1.11',
@@ -134,7 +134,7 @@ def generate_pipeline(img1, img2, x1, y1, x2, y2, name):
     t1 = Task()
     t1.name = 'Task1'
     t1.pre_exec = ['module load psc_path/1.1',
-		           'module load slurm/default',
+		   'module load slurm/default',
                    'module load intel/18.4',
                    'module load xdusage/2.1-1',
                    'module load python2/2.7.11_gcc_np1.11',
