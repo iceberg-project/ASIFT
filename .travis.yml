@@ -31,6 +31,7 @@ before_install:
   - pip install flake8
   - pip install pylint
   - pip install codecov
+  - pip install opencv-python
   - pip install zmq
   - pip install msgpack
   - pip install radical.entk
