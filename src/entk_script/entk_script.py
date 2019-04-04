@@ -67,7 +67,6 @@ def generate_discover_pipeline(path, src_img):
                      'module load python2/2.7.11_gcc_np1.11',
                      'module load gcc/5.3.0',
                      'module load opencv/2.4.13.2']
-
     task.executable = 'python2'
     # Assign arguments for the task executable
     task.arguments = ['../img_parser.py', '%s' % path, '%s' %src_img]
@@ -140,7 +139,6 @@ def generate_pipeline(img1, img2, x1, y1, x2, y2, name):
                    'module load python2/2.7.11_gcc_np1.11',
                    'module load gcc/5.3.0',
                    'module load opencv/2.4.13.2']
-
     t1.executable = 'python2'
     t1.upload_input_data = ['../data_matches.csv']
 
