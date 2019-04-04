@@ -29,7 +29,7 @@ class TestImgParser(unittest.TestCase):
         img1 = cv2.imread('2000.tif')
         json_dict = {}
         data = []
-        org_path = "/home/aymen/SummerRadical/tiles"
+        org_path = "./tiles"
         for path, files in os.walk(org_path):
             for filename in files:
                 if filename.endswith(".tif"):
@@ -48,8 +48,8 @@ class TestImgParser(unittest.TestCase):
         # Writing information to JSON file
         with open("original_images.json", "w") as outfile:
             json.dump(json_dict, outfile, indent=4, sort_keys=True)
-        path = "original_images.json"
-        path2 = "test_images.json"
+        path = "./tests/original_images.json"
+        path2 = "./tests/test_images.json"
         self.assertTrue(filecmp.cmp(path2, path), 'error')
         os.remove('original_images.json')
 
