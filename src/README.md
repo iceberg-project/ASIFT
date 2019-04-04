@@ -1,24 +1,121 @@
-# ASIFT
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/ae1c0eb2ae3d440eb9a7a5625cb75cc2)](https://app.codacy.com/app/iparask/ASIFT?utm_source=github.com&utm_medium=referral&utm_content=iceberg-project/ASIFT&utm_campaign=Badge_Grade_Dashboard)
+# Introduction
 
-# Inroduction
-The ASIFT Workflow is a set of combined algorithms made available through the IceBerg project to automatically geo-locate old aerial or satellite imagery using a database of well-know, geo-located and ortho-rectified current imagery. 
+This README file contains basic instructions on how to execute the Ensemble Toolkit 
+script for this use case
 
-# The goal of the ASIFT workflow
-Workflow is for a user to take an airborne or satellite image anywhere that we have WorldView Ortho-rectified imagery available, and where the user knows the approximate location of the photo (within ~100 km) but does not have geo-location information on it. The ASIFT Workflow be able to pin down where that photo was taken, automatically determine a likely set of geo-located ground control points for the image, and ortho-rectify the image if needed.
+It is suggested to read [RADICAL-Pilot's documentation](https://radicalpilot.readthedocs.io/en/latest/)
+and [Ensemble Toolkit's documentation](https://radicalentk.readthedocs.io/en/latest/).
 
-# Pre-conditions to run the ASIFT Use case 
-   ## Geographically-distinct and permanent features:
-There must be distinct, relatively-high contrast features within the image that would create good “key points” for the ASIFT algorithm. Mountainous regions are good, for instance. The flat-white featureless interior of an ice sheet is not.
-  - The key points must be invariant through time (seasons to decades): i.e. a stable mountain ridge is a good key point. A drifting sand dune, an eroding riverbank, or flat white fields of snow or grass are not good key points.
-  - The user must have a general idea where the image is located (the ASIFT algorithm cannot search the entire world, at least not yet).     - The user can provide one of the two following pieces of data to fulfill this requirement:
-  1. A center Latitude/longtitude location and a search radius (within 50km of 45.8 N 142.3 W, e.g.)
-  2. A shapefile in WGS84 (Latitude/longtitude) coordinates, containing a single polygon within which to search.
+It is also recommended that the execution is done from a Virtual Machine that has constant 
+Internet connection, Docker, and runs some version of Ubuntu.
 
-# Software Dependencies
+## Preparing your environment for installation
 
-- Opencv2
-- gdal
-- pandas
-- numpy
-- cmake
+Verify that you have a Python 2.7 installation and you can create a virtual environment
+by executing `virtualenv` or `conda create -n test`. Please do not create a virtual environment now.
+
+If you are not sure, please install [Miniconda 2](https://conda.io/miniconda.html) before proceeding.
+In either case, instructions are provided for both GCC python and Conda Python.
+
+The next step would be to install Rabbit MQ, since it is needed from Ensemble Toolkit:
+
+```
+~$ docker run -d --name entk_queues -P rabbitmq:3
+~$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                                                                                                 NAMES
+d334b23418f2        rabbitmq:3          "docker-entrypoint..."   3 months ago        Up 3 months         0.0.0.0:32775->4369/tcp, 0.0.0.0:32774->5671/tcp, 0.0.0.0:32773->5672/tcp, 0.0.0.0:32772->25672/tcp   entk_queues
+```
+Verify that there is a port that looks like `0.0.0.0:32772->25672/tcp`. The second part should be the same.
+
+After RabbitMQ is installed, we need to install gsissh and my-proxy. Instructions
+can be found [here](https://github.com/vivek-bala/docs/blob/master/misc/gsissh_setup_stampede_ubuntu_xenial.sh)
+Please change xenial with your Ubuntu codename (to find out run: `lsb_release -a`). 
+
+__Note: GSISSH and My-Proxy installation is mainly tested for Ubuntu 16.04. In case you have some other distribution please try to use the commented instructions.__
+
+In addition, you need a MongoDB either installed in your Virtual Machine ([instructions through Docker](https://codehangar.io/mongodb-image-instance-with-docker-toolbox-tutorial/)) 
+or you can use a Mongo as a Service via [MLab.com](https://mlab.com/). 
+
+If you installed your own MongoDB, note somewhere the followin URL:
+`mongodb://<ip_to _VM>:<mongodb_port>/entk_db`
+
+Mlad provides you with a similar URL. Make sure your DB is password protected.
+
+Now we are ready to install Ensemble Toolkit. The instructions will be based on installation from PyPi and Conda
+
+### PyPi installation:
+
+```
+virtualenv rp
+source rp/bin/activate
+pip install radical.entk
+```
+
+### Conda Installation:
+
+```
+conda create -y -p entk_env python=2.7 radical.pilot -c conda-forge
+source activate entk_env
+conda install radical.entk
+```
+
+After the installation has finished, please run the following:
+```
+  python               : 2.7.15
+  pythonpath           :
+  virtualenv           : conda_env1
+
+  radical.analytics    : 0.50.0
+  radical.entk         : 0.7.13
+  radical.pilot        : 0.50.22
+  radical.utils        : 0.50.3
+  saga                 : 0.50.0
+
+```
+The version numbers may be different, but the overall style should not.
+
+## Execution
+Initially export the following
+
+```
+export RADICAL_PILOT_DBURL=mongodb://<dbuser>:<dbpassword>@ds125872.mlab.com:25872/re_rp_devel
+```
+
+Create a proxy with XSEDE for 11 days
+
+```
+ myproxy-logon -s myproxy.xsede.org -l <xsede_username> -t 10000
+```
+
+You will get a prompt asking: `Enter MyProxy pass phrase`. This would be the password 
+you have at the XSEDE portal. Success will provide you with a credentials file under
+`/tmp`.
+
+For example:
+```
+aymen@DESKTOP-R920722J:~$ myproxy-logon -l aymen -s myproxy.xsede.org -t 72
+Enter MyProxy pass phrase:
+A credential has been received for user aymen in /tmp/x509up_u1000.
+aymen@DESKTOP-R920722J:~$
+```
+
+To verify that your certificate is valid, as well as, its remaining time do:
+```
+aymen@DESKTOP-R920722J:~$ grid-proxy-info
+subject  : /C=US/O=National Center for Supercomputing Applications/CN=Ioannis Paraskevakos
+issuer   : /C=US/O=National Center for Supercomputing Applications/OU=Certificate Authorities/CN=MyProxy CA 2013
+identity : /C=US/O=National Center for Supercomputing Applications/CN=Ioannis Paraskevakos
+type     : end entity credential
+strength : 2048 bits
+path     : /tmp/x509up_u1000
+timeleft : 263:59:22  (11.0 days)
+```
+
+And now do
+```
+python entk_script.py name src_img dataset desc resources project queue walltime cpus
+```
+For additional information about the scripts arguments execute:
+```
+python entk_script.py -h
+```
