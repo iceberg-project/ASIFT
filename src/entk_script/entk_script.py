@@ -117,7 +117,6 @@ def generate_pipeline(img1, img2, x1, y1, x2, y2, name):
     t1.cpu_reqs = {'processes': 1,
                    'threads_per_process': 1,
                    'thread_type': None}
-    t1.download_output_data = ['data_matches.csv']
 
     # Add the Task to the Stage
     s1.add_tasks(t1)
@@ -140,7 +139,7 @@ def generate_pipeline(img1, img2, x1, y1, x2, y2, name):
                    'module load gcc/5.3.0',
                    'module load opencv/2.4.13.2']
     t1.executable = 'python2'
-    t1.upload_input_data = ['../data_matches.csv']
+    t1.link_input_data = ['$Pipeline_%s_Stage_%s_Task_%s/data_matches.csv'%(p.name, s1.name, t1.name)]
 
     # Assign arguments for the task executable
     t1.arguments = ['../ASIFT/src/phase_3_ransac_filtering/ransac_filter.py',
