@@ -26,6 +26,7 @@ def args_parser():
     parser.add_argument('source_img', help='Name of the image to be matched with the dataset')
     return parser.parse_args()
 
+
 def img_parser():
     """
     Traversing over all the files inside the target
