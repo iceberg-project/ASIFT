@@ -1,7 +1,8 @@
 # Introduction
 
 This README file contains basic instructions on how to execute the Ensemble Toolkit 
-script for ASIFT usecase
+script for this use case
+
 It is suggested to read [RADICAL-Pilot's documentation](https://radicalpilot.readthedocs.io/en/latest/)
 and [Ensemble Toolkit's documentation](https://radicalentk.readthedocs.io/en/latest/).
 
@@ -62,13 +63,14 @@ After the installation has finished, please run the following:
 ```
   python               : 2.7.15
   pythonpath           :
-  virtualenv           : entk_env
+  virtualenv           : conda_env1
 
-  
-  radical.entk         : 0.7.6
-  radical.pilot        : 0.50.8
-  radical.utils        : 0.50.2
+  radical.analytics    : 0.50.0
+  radical.entk         : 0.7.13
+  radical.pilot        : 0.50.22
+  radical.utils        : 0.50.3
   saga                 : 0.50.0
+
 ```
 The version numbers may be different, but the overall style should not.
 
@@ -91,25 +93,29 @@ you have at the XSEDE portal. Success will provide you with a credentials file u
 
 For example:
 ```
-AymenFJA@DESKTOP-R64I4QR:~$ myproxy-logon -l AymenFJA -s myproxy.xsede.org -t 72
+aymen@DESKTOP-R920722J:~$ myproxy-logon -l aymen -s myproxy.xsede.org -t 72
 Enter MyProxy pass phrase:
-A credential has been received for user AymenFJA in /tmp/x509up_u1000.
-AymenFJA@DESKTOP-R64I4QR:~$
+A credential has been received for user aymen in /tmp/x509up_u1000.
+aymen@DESKTOP-R920722J:~$
 ```
 
 To verify that your certificate is valid, as well as, its remaining time do:
 ```
-AymenFJA@DESKTOP-R64I4QR:~$ grid-proxy-info
-subject  : /C=US/O=National Center for Supercomputing Applications/CN=AymenFJA
+aymen@DESKTOP-R920722J:~$ grid-proxy-info
+subject  : /C=US/O=National Center for Supercomputing Applications/CN=Ioannis Paraskevakos
 issuer   : /C=US/O=National Center for Supercomputing Applications/OU=Certificate Authorities/CN=MyProxy CA 2013
-identity : /C=US/O=National Center for Supercomputing Applications/CN=AymenFJA
+identity : /C=US/O=National Center for Supercomputing Applications/CN=Ioannis Paraskevakos
 type     : end entity credential
 strength : 2048 bits
 path     : /tmp/x509up_u1000
 timeleft : 263:59:22  (11.0 days)
 ```
 
-And now run
+And now do
 ```
-python entk_script.py pipelines cpus 
+python entk_script.py name src_img dataset desc resources project queue walltime cpus
+```
+For additional information about the scripts arguments execute:
+```
+python entk_script.py -h
 ```
