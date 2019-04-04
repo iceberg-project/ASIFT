@@ -48,8 +48,8 @@ class TestImgParser(unittest.TestCase):
         # Writing information to JSON file
         with open("original_images.json", "w") as outfile:
             json.dump(json_dict, outfile, indent=4, sort_keys=True)
-        path = "./tests/original_images.json"
-        path2 = "./tests/test_images.json"
+        path = "src/tests/original_images.json"
+        path2 = "src/tests/test_images.json"
         self.assertTrue(filecmp.cmp(path2, path), 'error')
         os.remove('original_images.json')
 
