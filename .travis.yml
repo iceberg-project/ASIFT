@@ -1,0 +1,52 @@
+# After changing this file, check it on:
+#   http://lint.travis-ci.org/
+language: python
+sudo: disabled
+
+python:
+  - "2.7"
+
+os:
+  - linux
+
+git:
+  depth: 1
+
+env:
+  global:
+    - LOC=/home/travis/virtualenv/python2.7  # Location where VE is created on travis
+    - CMD1="coverage run -m pytest -vvv src/tests/;flake8 src/tests/;pylint src/tests/"
+    - CMD2="flake8 --config=.flake8 src/entk_script/*.py"
+    - CMD3="pylint src/entk_script/*.py"
+    - COVERAGE=false
+    - CODECOV_TOKEN="793073d1-fd78-44b9-b313-5d55293ec113"
+  matrix:
+    - MAIN_CMD=$CMD1 COVERAGE=true
+    - MAIN_CMD=$CMD2
+    - MAIN_CMD=$CMD3
+
+# command to install dependencies
+before_install:
+  - pip install coverage
+  - pip install flake8
+  - pip install pylint
+  - pip install codecov
+  - pip install opencv-python
+  - pip install zmq
+  - pip install msgpack
+  - pip install radical.entk
+  - pip install pandas
+
+   
+script:
+  - echo $MAIN_CMD
+  - eval $MAIN_CMD
+
+after_success:
+  - |
+    if [[ $COVERAGE == 'true' ]]; then \
+      coverage combine; \
+      coverage xml; \
+      coverage report; \
+      curl -s https://codecov.io/bash | bash
+    fi
