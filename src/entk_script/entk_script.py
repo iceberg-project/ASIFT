@@ -38,7 +38,7 @@ def args_parser():
     parser.add_argument('queue', type=str,
                         help='The queue from which resources are requested.')
     parser.add_argument('walltime', type=int,
-                        help='The amount of time resources are requested in' +' minutes')
+                        help='The amount of time resources are requested in' + ' minutes')
     parser.add_argument('cpus', type=int,
                         help='Number of CPU Cores required to execute')
     print (parser.parse_args())
@@ -61,7 +61,7 @@ def generate_discover_pipeline(path, src_img):
     task = Task()
     task.name = 'Parser-T0'
     task.pre_exec = ['module load psc_path/1.1',
-		     'module load slurm/default',
+                     'module load slurm/default',
                      'module load intel/18.4',
                      'module load xdusage/2.1-1',
                      'module load python2/2.7.11_gcc_np1.11',
@@ -69,13 +69,14 @@ def generate_discover_pipeline(path, src_img):
                      'module load opencv/2.4.13.2']
     task.executable = 'python2'
     # Assign arguments for the task executable
-    task.arguments = ['../img_parser.py', '%s' % path, '%s' %src_img]
+    task.arguments = ['../img_parser.py', '%s' % path, '%s' % src_img]
     task.download_output_data = ['images.json']
     stage.add_tasks(task)
     # Add Stage to the Pipeline
     pipeline.add_stages(stage)
 
     return pipeline
+
 
 def generate_pipeline(img1, img2, x1, y1, x2, y2, name):
 
@@ -99,7 +100,7 @@ def generate_pipeline(img1, img2, x1, y1, x2, y2, name):
     t1 = Task()
     t1.name = 'Task1'
     t1.pre_exec = ['module load psc_path/1.1',
-		   'module load slurm/default',
+                   'module load slurm/default',
                    'module load intel/18.4',
                    'module load xdusage/2.1-1',
                    'module load python2/2.7.11_gcc_np1.11',
@@ -115,8 +116,7 @@ def generate_pipeline(img1, img2, x1, y1, x2, y2, name):
 
     t1.cpu_reqs = {'processes': 1,
                    'threads_per_process': 1,
-                   'thread_type': None
-                  }
+                   'thread_type': None}
     t1.download_output_data = ['data_matches.csv']
 
     # Add the Task to the Stage
@@ -133,7 +133,7 @@ def generate_pipeline(img1, img2, x1, y1, x2, y2, name):
     t1 = Task()
     t1.name = 'Task1'
     t1.pre_exec = ['module load psc_path/1.1',
-		   'module load slurm/default',
+                   'module load slurm/default',
                    'module load intel/18.4',
                    'module load xdusage/2.1-1',
                    'module load python2/2.7.11_gcc_np1.11',
@@ -160,8 +160,8 @@ def generate_pipeline(img1, img2, x1, y1, x2, y2, name):
 
     return p
 
-if __name__ == '__main__':
 
+if __name__ == '__main__':
 
     args = args_parser()
     hostname = os.environ.get('RMQ_HOSTNAME', 'localhost')
@@ -171,11 +171,11 @@ if __name__ == '__main__':
                 'cpus': args.cpus,
                 'project': args.project,
                 'queue': args.queue,
-                'schema': 'gsissh',}
+                'schema': 'gsissh'}
 
     # Assign resource manager to the Application Manager
     appman = AppManager(hostname=hostname, port=port, name='entk.session-%s-%s'
-                        %(args.name, random.randint(9999, 100000)),
+                        % (args.name, random.randint(9999, 100000)),
                         autoterminate=False, write_workflow=True)
     # Assign resource request description to the Application Manager
     appman.resource_desc = res_dict
@@ -197,7 +197,7 @@ if __name__ == '__main__':
         y1 = jsonObj['Dataset'][counter]['y1']
         y2 = jsonObj['Dataset'][counter]['y2']
         counter = counter+1
-        p1 = generate_pipeline(img1, img2, x1, y1, x2, y2, name='Pipeline%s'%item)
+        p1 = generate_pipeline(img1, img2, x1, y1, x2, y2, name='Pipeline%s' % item)
         pipelines.append(p1)
 
     # Assign the workflow as a set or list of Pipelines to the Application Manager
