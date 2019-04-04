@@ -36,7 +36,7 @@ def img_parser():
     img1 = cv2.imread(args.source_img)
     json_dict = {}
     data = []
-    for path, dirs, files in os.walk(args.path):
+    for path, files in os.walk(args.path):
         for filename in files:
             if filename.endswith(".tif"):
                 print ('found GEOTIFF Images ' + filename)
