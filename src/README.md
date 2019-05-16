@@ -1,4 +1,3 @@
----
 title: 4D Image Matching
 ---
 
@@ -196,7 +195,4 @@ Acknowledgements to Mariano Rodriguez for the “fast_imas_IPOL” executable
 (<http://github.com/rdguez-mariano/fast_imas_IPOL>), which CPU-versions of this
 code rely upon.
 
-Revisions:
-----------
 
-1.0 – 2019.02.10 – Draft document by Mike MacFerrin
