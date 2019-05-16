@@ -64,7 +64,7 @@ class SCRATCH_Manager:
         # so we don't accidentally concatenate long filenames added to the database.
         # Max filename size here, 2048 characters.
 
-        if not os.path.exists(self.logfile, verbose=True):
+        if not os.path.exists(self.logfile):
             if create_if_not_present:
                 self.setup_scratch_directory(verbose=verbose)
             else:
